@@ -1,5 +1,4 @@
 <h1><u>Notes</u></h1>
-{% if latest_notes_list %}
 <style>
 table, th {
     border: 1px solid black;
@@ -8,7 +7,7 @@ table, th {
 
   <ul>
     <table>
-    {% for note in latest_notes_list %}
+    {% for note in all_notes %}
           <tr>
           <th><a href="{% url 'notebooks:detail' note.id %}">{{note.note_title}}</a></th>
           <th><p>{{note.pub_date}}</p></th>
@@ -19,12 +18,9 @@ table, th {
           </form></th>
           </tr>
 
-        {% endfor %}
+    {% endfor %}
       </table>
   </ul>
-{% else %}
- <p>No notes are available<p>
-{% endif %}
 
 
 <a href="{% url 'notebooks:create'%}"><button type="button">Create</button></a>

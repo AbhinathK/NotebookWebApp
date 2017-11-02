@@ -6,12 +6,13 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 
-def index(request):
-    latest_notes_list = Note.objects.order_by('-pub_date')[:10]
-    context = {
-    'latest_notes_list': latest_notes_list,
-    }
-    return render(request, 'notebooks/index.html', context)
+class index(generic.ListView):
+    template_name = 'notebooks/index.html'
+    context_object_name = 'all_notes'
+
+    def get_queryset(self):
+        return Note.objects.all()
+
 
 def detail(request, note_id):
     note = get_object_or_404(Note, pk = note_id)

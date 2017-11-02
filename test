@@ -1,0 +1,4 @@
+if [ $? -ne 0 ]; then
+    cat /var/log/test.log
+    exit 1
+fi
