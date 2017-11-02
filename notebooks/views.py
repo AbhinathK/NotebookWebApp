@@ -6,10 +6,14 @@ from django.shortcuts import render
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
+from .forms import NoteSearchForm
+from search_views.search import SearchListView
+from search_views.filters import BaseFilter
 
 class index(generic.ListView):
     template_name = 'notebooks/index.html'
     context_object_name = 'all_notes'
+    paginate_by = 13
 
     def get_queryset(self):
         return Note.objects.all()
@@ -46,3 +50,18 @@ class NoteDelete(DeleteView):
     model = Note
     success_url = reverse_lazy('notebooks:index')
     pk_url_kwarg = 'note_id'
+
+class NotesFilter(BaseFilter):
+    search_fields = {
+        'search_title' : ['note_title'],
+        'search_author' : ['id', 'author__username'],
+        'search_description' : ['note_description'],
+        }
+
+class NoteSearchList(SearchListView):
+    model = Note
+    paginate_by = 30
+    context_object_name = 'all_notes'
+    template_name = "notebooks/notes_list.html"
+    form_class = NoteSearchForm
+    filter_class = NotesFilter

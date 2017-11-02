@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^(?P<note_id>[0-9]+)/delete/$', login_required(views.NoteDelete.as_view()), name = 'delete'),
     url(r'^(?P<note_id>[0-9]+)/edit/$', login_required(views.NoteEdit.as_view(model=Note, success_url="/notebooks/index")), name = 'edit'),
     url(r'^create/$', login_required(views.NoteCreate.as_view(model=Note, success_url="/notebooks/index")), name = 'create'),
+    url(r'^search/$', login_required(views.NoteSearchList.as_view(model=Note, success_url="/notebooks/index")), name = 'search'),
 ]
