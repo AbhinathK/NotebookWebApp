@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from .models import Note
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
@@ -23,6 +24,18 @@ class NoteCreate(CreateView):
     model = Note
     fields=['note_title','note_description']
     pk_url_kwarg = 'note_id'
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.author = self.request.user
+        instance.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self, **kwargs):
+        if  kwargs != None:
+            return reverse_lazy('notebooks:index')
+        else:
+            return reverse_lazy('notebooks:home')
 
 class NoteEdit(UpdateView):
     model = Note

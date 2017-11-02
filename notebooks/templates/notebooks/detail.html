@@ -1,6 +1,28 @@
-<h1>{{note.note_title}}</h1>
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
 
-<p>Published Date = {{note.pub_date}}</p>
-<p>Description = {{note.note_description}}</p>
+{% block content %}
+<style>
+table, th {
+    border: 1px solid black;
+}
+</style>
+
+<table>
+<tr>
+<th><b>Title</b></th>
+<th><b>Created</b></th>
+<th><b>Author</b></th>
+<th><b>Description</b></th>
+</tr>
+<tr>
+<th><b>{{note.note_title}}</b></th>
+<th><b>{{note.pub_date}}</b></th>
+<th><b>{{note.author}}</b></th>
+<th><b>{{note.note_description}}</b></th>
+</tr>
+<table>
+
 
 <a href="{% url 'notebooks:index'%}"><button type="button">back</button></a>
+{% endblock %}

@@ -1,4 +1,8 @@
-<h1><u>Notes</u></h1>
+{% extends 'base.html' %}
+{% block title %}Notes{% endblock %}
+
+{% block content %}
+{% if all_notes %}
 <style>
 table, th {
     border: 1px solid black;
@@ -7,10 +11,18 @@ table, th {
 
   <ul>
     <table>
+      <tr>
+      <th><b>Title</b></th>
+      <th><b>Created</b></th>
+      <th><b>Author</b></th>
+      <th><b>Action</b></th>
+      <th><b>Action</b></th>
+      </tr>
     {% for note in all_notes %}
           <tr>
           <th><a href="{% url 'notebooks:detail' note.id %}">{{note.note_title}}</a></th>
           <th><p>{{note.pub_date}}</p></th>
+          <th><p>{{note.author}}</p></th>
           <th><a href="{% url 'notebooks:edit' note.id %}"><button type="button">Edit</button></a></th>
           <th><form action ="{% url 'notebooks:delete' note.id %}" method ="post">
            {% csrf_token %}
@@ -21,7 +33,11 @@ table, th {
     {% endfor %}
       </table>
   </ul>
+{% else %}
+<p>No notes are available</p>
+{% endif %}
 
 
 <a href="{% url 'notebooks:create'%}"><button type="button">Create</button></a>
 <a href="{% url 'logout' %}"><button type="button">logout</button></a>
+{% endblock %}
